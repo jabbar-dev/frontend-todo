@@ -8,6 +8,7 @@ import {LogIn} from './components/LogIn'
 import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom';
 import { Button } from 'bootstrap';
 import {Dashboard} from './components/Dashboard'
+import { Update } from './components/Update';
 
 
 
@@ -44,6 +45,9 @@ function App() {
       <li>
         <Link className='nav-link'  to ="/dashboard">Dashboard</Link>
       </li>
+      <li>
+        <Link className='nav-link'  to ="/update">Update</Link>
+      </li>
     </ul>
   </div>
 </nav>
@@ -56,6 +60,7 @@ function App() {
     <Route path="/register" element={<Register/>}></Route>
     <Route path="/login" element={<LogIn/>}></Route>
     <Route path="/dashboard" element={<Dashboard/>}></Route>
+    <Route path="/update/:id" element={<Update/>}></Route>
 
   </Routes>
 </main>
