@@ -31,7 +31,7 @@ export  function Update() {
 
    const showReg = ()=>{
 
-    navigate("/register");
+    navigate("/dashboard");
   }
 
   const showAck = () => {
@@ -87,8 +87,8 @@ export  function Update() {
     initialValues={{ username: localStorage.getItem('user') , password : localStorage.getItem('pass')}}
     validationSchema={validate}
     onSubmit={async (values, { setSubmitting }) => {
-      fetch("http://localhost:3002/login", {
-        method: "POST",
+      fetch(`http://localhost:3002/api/users/${id}`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           username: values.username,
@@ -106,18 +106,7 @@ export  function Update() {
             
           }
           if (res.status == 200) {
-            res
-              .json()
-              .then((resJ) => {
-                setResponse(resJ);
-                setRegistered(true);
-                setError(false);
-                localStorage.setItem("userInfo", JSON.stringify(resJ));
-              navigate("/dashboard");
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+          navigate('/dashboard')
           }
         })
        
@@ -135,17 +124,17 @@ export  function Update() {
     {(formik) => (
       <div>
           <center>
-        <h1 className="pl-20 my-4 font-weight-bold-display-4" >LOGIN</h1>
+        <h1 className="pl-20 my-4 font-weight-bold-display-4" >Update {localStorage.getItem("user")}</h1>
         
           <div className=" pl-20 col-md-2">
             <Form>
               <TextField label="USERNAME" name="username" type="text" />
               <br />
               <TextField label="PASSWORD" name="password" type="text" />
-              <button className="btn btn-warning mt-3" type="submit">
-                LogIn
+              <button className="btn btn-success mt-3" type="submit">
+                Update
               </button>
-              <button className="btn btn-success mt-3" type="submit" onClick={showReg}>Register</button>
+              <button className="btn btn-warning mt-3" type="submit" onClick={showReg}>Dashboard</button>
             </Form>
           </div>
         </center>

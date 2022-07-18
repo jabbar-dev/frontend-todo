@@ -46,7 +46,7 @@ function App() {
         <Link className='nav-link'  to ="/dashboard">Dashboard</Link>
       </li>
       <li>
-        <Link className='nav-link'  to ="/update">Update</Link>
+        <Link className='nav-link'  to ="/update"></Link>
       </li>
     </ul>
   </div>
