@@ -4,10 +4,10 @@ import { TextField } from "./TextField";
 import * as Yup from "yup";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
-import {LogIn} from "./LogIn";
 
-export function Register() {
-  const navigate = useNavigate();
+
+export function LogIn() {
+    const navigate = useNavigate();
   const [response, setResponse] = useState({});
   const [registered, setRegistered] = useState(false);
   const [error, setError] = useState(false);
@@ -15,8 +15,6 @@ export function Register() {
 
 
 const handleLogin = () =>{
-setLogInClicked(true);
-  
 }
 
   const validate = Yup.object({
@@ -28,12 +26,10 @@ setLogInClicked(true);
       .required("Password is Required"),
   });
 
-  const logIn = () =>{
-    navigate("/login");
+  const showReg = ()=>{
 
-
-    }
-
+    navigate("/register");
+  }
 
   const showAck = () => {
     if (response.username != undefined) {
@@ -47,16 +43,16 @@ setLogInClicked(true);
     if (error) {
       return <div className="alert alert-danger"> {"Already Exist"}</div>;
     }
-  }
+  };
 
-
+ 
   return (
     
     <Formik
       initialValues={{ username: "", password: "" }}
       validationSchema={validate}
       onSubmit={async (values, { setSubmitting }) => {
-        fetch("http://localhost:3002/api/users", {
+        fetch("http://localhost:3002/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -81,7 +77,8 @@ setLogInClicked(true);
                   setResponse(resJ);
                   setRegistered(true);
                   setError(false);
-                  console.log("CC" + JSON.stringify(resJ));
+                  localStorage.setItem("userInfo", JSON.stringify(resJ));
+                navigate("/dashboard");
                 })
                 .catch((err) => {
                   console.log(err);
@@ -91,31 +88,39 @@ setLogInClicked(true);
          
       }}
 
+      //  onSubmit =  {values=>{
+
+      //   //POST API
+      //   const article = {"username":values.username, "password":values.password}
+      //   const response = axios.post('https://todo-iba.herokuapp.com/api/users',article).then(
+      //   console.log(response.data))
+
+      // }}
     >
       {(formik) => (
-       <center>
-       <div>
-          <h1 className="pl-20 my-4 font-weight-bold-display-4">Register</h1>
+        <div>
+            <center>
+          <h1 className="pl-20 my-4 font-weight-bold-display-4" >LOGIN</h1>
+          
             <div className=" pl-20 col-md-2">
               <Form>
                 <TextField label="USERNAME" name="username" type="text" />
                 <br />
                 <TextField label="PASSWORD" name="password" type="text" />
-                <button className="btn btn-success mt-3" type="submit">
-                  Register
+                <button className="btn btn-warning mt-3" type="submit">
+                  LogIn
                 </button>
-                <button className="btn btn-warning mt-3" type="submit" onClick={logIn}>LogIn</button>
+                <button className="btn btn-success mt-3" type="submit" onClick={showReg}>Register</button>
               </Form>
             </div>
+          </center>
           {/* {console.log("Response"+response["username"])} */}
 
           {showAck()}
 
           {/* <p> Hi {response.username+" Added"} </p> */}
         </div>
-        </center>
       )}
     </Formik>
   );
-      }
-      
+}
